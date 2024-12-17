@@ -1,6 +1,6 @@
 package com.andrey.rocketseat.gestao_vagas.modules.company.controllers;
 
-import com.andrey.rocketseat.gestao_vagas.modules.company.CompanyEntity;
+import com.andrey.rocketseat.gestao_vagas.modules.company.entities.CompanyEntity;
 import com.andrey.rocketseat.gestao_vagas.modules.company.service.CreateCompanyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

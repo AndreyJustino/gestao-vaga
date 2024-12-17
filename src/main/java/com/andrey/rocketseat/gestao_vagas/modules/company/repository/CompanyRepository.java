@@ -1,6 +1,6 @@
 package com.andrey.rocketseat.gestao_vagas.modules.company.repository;
 
-import com.andrey.rocketseat.gestao_vagas.modules.company.CompanyEntity;
+import com.andrey.rocketseat.gestao_vagas.modules.company.entities.CompanyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
