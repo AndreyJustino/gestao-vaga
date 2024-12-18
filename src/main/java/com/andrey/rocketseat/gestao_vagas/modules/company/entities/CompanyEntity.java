@@ -34,7 +34,7 @@ public class CompanyEntity {
     @NotBlank
     private String email;
 
-    @Length(max = 16, min = 8, message = "O valor minimo de caracteres pro campo (password) é 8, e o maximo é 16.")
+    @Length(max = 70, min = 8, message = "O valor minimo de caracteres pro campo (password) é 8, e o maximo é 70.")
     private String password;
 
     private String website;

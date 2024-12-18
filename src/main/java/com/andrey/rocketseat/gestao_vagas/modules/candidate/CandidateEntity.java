@@ -34,7 +34,7 @@ public class CandidateEntity {
     private String email;
 
     @NotBlank(message = "O campo (password), não pode estar vazio.")
-    @Length(min = 8, max = 16, message = "O valor minimo de caracteres pro campo (senha) é 8, e o maximo é 16.")
+    @Length(min = 8, max = 70, message = "O valor minimo de caracteres pro campo (senha) é 8, e o maximo é 70.")
     private String password;
 
     private String description;
