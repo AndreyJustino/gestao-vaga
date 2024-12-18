@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CompanyRepository extends JpaRepository<CompanyEntity, UUID> {
-    Optional<CompanyEntity> findByCnpjOrUsername(String cnpj, String username);
+    Optional<CompanyEntity> findByCnpjOrUsernameOrEmail(String cnpj, String username, String email);
 }

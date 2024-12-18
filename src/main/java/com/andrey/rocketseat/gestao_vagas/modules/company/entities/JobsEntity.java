@@ -25,12 +25,12 @@ public class JobsEntity {
     private String benefits;
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", insertable=false, updatable=false)
     /*joinColum: Define qual será a coluna dessa classe no banco de dados
      que será usada para fazer o vínculo entre as tabelas.*/
     private CompanyEntity companyEntity;
 
-    @Column(name = "company_id", insertable=false, updatable=false)
+    @Column(name = "company_id")
     private UUID companyId;
 
     @CreationTimestamp

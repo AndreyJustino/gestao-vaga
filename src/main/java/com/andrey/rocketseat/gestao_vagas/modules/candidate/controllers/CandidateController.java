@@ -1,8 +1,6 @@
 package com.andrey.rocketseat.gestao_vagas.modules.candidate.controllers;
 
-import com.andrey.rocketseat.gestao_vagas.exceptions.UserFoundException;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.CandidateEntity;
-import com.andrey.rocketseat.gestao_vagas.modules.candidate.repository.CandidateRepository;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.service.CreateCandidateService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
