@@ -3,6 +3,7 @@ package com.andrey.rocketseat.gestao_vagas.modules.company.entities;
 import com.andrey.rocketseat.gestao_vagas.modules.company.Levels;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -20,6 +21,8 @@ public class JobsEntity {
     @NotBlank(message = "Descrição da vaga é obrigatoria")
     private String description;
 
+    @NotNull(message = "O campo (levels) não pode ser nulo")
+    @Enumerated(EnumType.STRING) // Salva os valores do enum como strings no banco
     private Levels levels;
 
     private String benefits;
@@ -30,7 +33,8 @@ public class JobsEntity {
      que será usada para fazer o vínculo entre as tabelas.*/
     private CompanyEntity companyEntity;
 
-    @Column(name = "company_id")
+    @NotNull(message = "O campo (companyId não pode ser nulo)")
+    @Column(name = "company_id", nullable = false)
     private UUID companyId;
 
     @CreationTimestamp
