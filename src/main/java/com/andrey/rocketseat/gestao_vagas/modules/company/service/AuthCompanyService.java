@@ -1,5 +1,8 @@
 package com.andrey.rocketseat.gestao_vagas.modules.company.service;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import javax.naming.AuthenticationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,10 @@ public class AuthCompanyService {
     private PasswordEncoder passwordEncoder;
 
     public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
-        CompanyEntity company = this.companyRepository.findByEmail(authCompanyDTO.getEmail()).orElseThrow(
-            () -> {
-                throw new IllegalArgumentException("Email não encontrado");
+        CompanyEntity company = this.companyRepository.findByEmail(authCompanyDTO.getEmail())
+            .orElseThrow(
+                () -> {
+                    throw new IllegalArgumentException("Email não encontrado");
             }
         );
 
@@ -41,6 +45,7 @@ public class AuthCompanyService {
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);//informa qual criptografia e passa a secret que esta no aplication.properties
         String token = JWT.create().withIssuer("nomeDeQuemAssina")
+        .withExpiresAt(Instant.now().plus(Duration.ofHours(4)))//adiconando tempo de expiracao do token
         .withSubject(company.getId().toString())//informacao unica de qm vai usar o token
         .sign(algorithm);
 
