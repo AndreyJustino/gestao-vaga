@@ -19,6 +19,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth -> {
                     auth.requestMatchers("/candidate/").permitAll() //informando que qualquer um pode acessar essa rota
                             .requestMatchers("/company/").permitAll()
+                            .requestMatchers("/auth/company").permitAll()
                             .anyRequest().authenticated();//aqui digo que as demais precisam de autenticacao
                 }));
 
