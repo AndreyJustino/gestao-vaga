@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface CompanyRepository extends JpaRepository<CompanyEntity, UUID> {
     Optional<CompanyEntity> findByCnpjOrUsernameOrEmail(String cnpj, String username, String email);
+
+    Optional<CompanyEntity> findByEmail(String email);
 }
