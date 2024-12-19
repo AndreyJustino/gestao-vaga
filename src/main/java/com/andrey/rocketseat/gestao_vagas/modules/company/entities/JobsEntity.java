@@ -4,7 +4,11 @@ import com.andrey.rocketseat.gestao_vagas.modules.company.Levels;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -12,6 +16,9 @@ import java.util.UUID;
 
 @Entity(name = "job")
 @Data
+@Builder
+@AllArgsConstructor//fazer um constructor com todos os atributos
+@NoArgsConstructor//fazer um constructor sem os atributos
 public class JobsEntity {
 
     @Id
