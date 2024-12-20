@@ -2,7 +2,6 @@ package com.andrey.rocketseat.gestao_vagas.modules.candidate.service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;

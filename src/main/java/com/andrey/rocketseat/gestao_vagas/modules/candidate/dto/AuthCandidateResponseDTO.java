@@ -1,7 +1,6 @@
 package com.andrey.rocketseat.gestao_vagas.modules.candidate.dto;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
