@@ -25,6 +25,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/candidate/").permitAll() //informando que qualquer um pode acessar essa rota
                             .requestMatchers("/company/").permitAll()
                             .requestMatchers("/auth/company").permitAll()
+                            .requestMatchers("/auth/candidate").permitAll()
                             .anyRequest().authenticated();//aqui digo que as demais precisam de autenticacao
                 }))
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
