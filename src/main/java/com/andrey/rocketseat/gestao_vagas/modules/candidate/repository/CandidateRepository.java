@@ -10,4 +10,6 @@ import java.util.UUID;
 // segundo parametro do jpa: é o tipo da chave primaria
 public interface CandidateRepository extends JpaRepository<CandidateEntity, UUID> {
     Optional<CandidateEntity> findByUsernameOrEmail(String username, String email);
+
+    Optional<CandidateEntity> findByEmail(String email);
 }
