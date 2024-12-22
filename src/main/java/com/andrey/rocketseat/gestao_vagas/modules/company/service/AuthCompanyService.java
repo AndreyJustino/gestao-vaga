@@ -2,6 +2,7 @@ package com.andrey.rocketseat.gestao_vagas.modules.company.service;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 import javax.naming.AuthenticationException;
 
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.andrey.rocketseat.gestao_vagas.modules.company.dto.AuthCompanyDTO;
+import com.andrey.rocketseat.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 import com.andrey.rocketseat.gestao_vagas.modules.company.entities.CompanyEntity;
 import com.andrey.rocketseat.gestao_vagas.modules.company.repository.CompanyRepository;
 import com.auth0.jwt.JWT;
@@ -28,7 +30,7 @@ public class AuthCompanyService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+    public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         CompanyEntity company = this.companyRepository.findByEmail(authCompanyDTO.getEmail())
             .orElseThrow(
                 () -> {
@@ -44,11 +46,23 @@ public class AuthCompanyService {
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);//informa qual criptografia e passa a secret que esta no aplication.properties
+
+        Instant expiresAt = Instant.now().plus(Duration.ofHours(4));
+
         String token = JWT.create().withIssuer("nomeDeQuemAssina")
-        .withExpiresAt(Instant.now().plus(Duration.ofHours(4)))//adiconando tempo de expiracao do token
+        .withExpiresAt(expiresAt)//adiconando tempo de expiracao do token
         .withSubject(company.getId().toString())//informacao unica de qm vai usar o token
+        .withClaim("roles", Arrays.asList("COMPANY"))//informacoes adicionais
         .sign(algorithm);
 
-        return token;
+
+        AuthCompanyResponseDTO response = AuthCompanyResponseDTO.builder()
+        .acess_token(token)
+        .expires_in(expiresAt)
+        .build();
+
+        System.out.println("===== AuthCompanyService ====");
+
+        return response;
     }
 }

@@ -21,7 +21,7 @@ import jakarta.security.auth.message.AuthException;
 @Service
 public class AuthCandidateService {
 
-    @Value("%{security.token.secret}")
+    @Value("${security.token.secret}")
     private String secretKey;
 
 
@@ -49,10 +49,10 @@ public class AuthCandidateService {
         Instant expiteIn = Instant.now().plus(Duration.ofHours(4));
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        String token = JWT.create().withIssuer("QuemAssinaIsso?")
+        String token = JWT.create().withIssuer("nomeDeQuemAssina")
             .withExpiresAt(expiteIn)
             .withSubject(candidateEntity.getId().toString())
-            .withClaim("roles", Arrays.asList("candidate"))
+            .withClaim("roles", Arrays.asList("CANDIDATE"))
             .sign(algorithm);
 
         
@@ -62,6 +62,8 @@ public class AuthCandidateService {
             .expires_in(expiteIn)
             .build();
         
+            System.out.println("===== AuthCandidateService ====");
+
         return authCandidateResponseDTO;
     }
 }
