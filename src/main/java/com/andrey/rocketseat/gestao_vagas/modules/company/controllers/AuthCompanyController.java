@@ -9,25 +9,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.andrey.rocketseat.gestao_vagas.modules.company.dto.AuthCompanyDTO;
+import com.andrey.rocketseat.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 import com.andrey.rocketseat.gestao_vagas.modules.company.service.AuthCompanyService;
 
 import jakarta.validation.Valid;
 
-@RequestMapping("/auth")
+@RequestMapping("/company")
 @RestController
 public class AuthCompanyController {
 
     @Autowired
     private AuthCompanyService authCompany;
 
-    @PostMapping("/company")
+    @PostMapping("/auth")
     public ResponseEntity<Object> authCompanyController(@Valid @RequestBody AuthCompanyDTO authCompanyDTO){
-     
+    
         try {
-            String token = authCompany.execute(authCompanyDTO);
+            AuthCompanyResponseDTO token = authCompany.execute(authCompanyDTO);
+
+            System.out.println("===== AuthCompanyController try ====");
+
             return ResponseEntity.ok().body(token);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+
+
+            System.out.println("===== AuthCompanyController try ====");
+            
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro ao autenticar empresa");
         }
 
         
