@@ -1,15 +1,17 @@
 package com.andrey.rocketseat.gestao_vagas.security;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.andrey.rocketseat.gestao_vagas.providers.JWTProviders;
+import com.andrey.rocketseat.gestao_vagas.providers.JWTCompanyProviders;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,32 +22,53 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SecurityFilter extends OncePerRequestFilter{
 
     @Autowired
-    private JWTProviders jwtProviders;
+    private JWTCompanyProviders jwtProviders;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-                SecurityContextHolder.getContext().setAuthentication(null);
+                //SecurityContextHolder.getContext().setAuthentication(null);
                 String header = request.getHeader("Authorization");
 
-                if(header != null){
-                    String subjectToken= this.jwtProviders.validadeToken(header);
-                    if (subjectToken.isEmpty()) {
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        return;
+
+                if(request.getRequestURI().startsWith("/company")){
+
+                    System.out.println("===== SecurityFilter if 1 ====");
+
+                    if(header != null){
+
+                        System.out.println("===== SecurityFilter if 2 ====");
+
+                        DecodedJWT token = this.jwtProviders.validadeToken(header);
+                        if (token == null) {
+
+                            System.out.println("===== SecurityFilter if 3 ====");
+
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            return;
+                        }
+    
+                        request.setAttribute("company_id", token.getSubject());
+
+                        List<Object> roles = token.getClaim("roles").asList(Object.class);
+
+                        List<SimpleGrantedAuthority> grants = roles.stream()
+                        .map((value) -> {
+                            return new SimpleGrantedAuthority("ROLE_" + value.toString().toUpperCase());
+                        }).toList();
+
+                        UsernamePasswordAuthenticationToken auth = 
+                            new UsernamePasswordAuthenticationToken(token.getSubject(), null, grants);
+    
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+
+                        System.out.println("===== Security Filter ====");
                     }
-
-                    request.setAttribute("company_id", subjectToken);
-                    UsernamePasswordAuthenticationToken auth = 
-                    new UsernamePasswordAuthenticationToken(subjectToken, null, Collections.emptyList());
-
-                    SecurityContextHolder.getContext().setAuthentication(auth);
                 }
 
                 filterChain.doFilter(request, response);
 
-        // TODO Auto-generated method stub
         //throw new UnsupportedOperationException("Unimplemented method 'doFilterInternal'");
     }
     
