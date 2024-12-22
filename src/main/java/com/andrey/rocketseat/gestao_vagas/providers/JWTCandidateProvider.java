@@ -6,31 +6,35 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 @Service
-public class JWTProviders {
+public class JWTCandidateProvider {
 
     @Value("${security.token.secret}")
     private String secretKey;
 
-    public String validadeToken(String token){
-        
+    public DecodedJWT validadeToken(String token){
+
         token = token.replace("Bearer ", "");
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
-        try {
-            String subjet = JWT.require(algorithm)
-            .build()
-            .verify(token)
-            .getSubject();
         
-            return subjet;
-        } catch (JWTVerificationException e) {
+        try{
+
+            DecodedJWT subject = JWT.require(algorithm).build()
+            .verify(token);
+
+            System.out.println("===== JWTCandidateProvider try ====");
+
+            return subject;
+
+        }catch(JWTVerificationException e){
+
+            System.out.println("===== JWTCandidateProvider catch ====");
+
             e.printStackTrace();
-            return "";
+            return null;
         }
-
-        
     }
 }
