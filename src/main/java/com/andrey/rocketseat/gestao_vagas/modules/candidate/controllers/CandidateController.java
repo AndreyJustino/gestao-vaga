@@ -7,6 +7,12 @@ import com.andrey.rocketseat.gestao_vagas.modules.candidate.service.ListAllJobsB
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.service.ProfileCandidateService;
 
 import com.andrey.rocketseat.gestao_vagas.modules.company.entities.JobsEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
@@ -27,6 +33,11 @@ public class CandidateController {
     private CreateCandidateService createCandidateService;
 
     @PostMapping("/")
+    @Tag(name = "Candidato - Cadastro", description = "Endpoint responsável por realizar o cadastro de um novo candidato no sistema.")
+    @Operation(summary = "Cadastrar candidato", description = "Realiza o cadastro de um novo candidato, armazenando suas informações no banco de dados.")
+    @ApiResponse(responseCode = "200", content = {
+            @Content(schema = @Schema(implementation = CandidateEntity.class))
+    })
     public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidate){
 
         try{
@@ -47,8 +58,13 @@ public class CandidateController {
 
     @GetMapping("/profile")
     @PreAuthorize("hasRole('CANDIDATE')")
+    @Tag(name = "Candidato - Perfil", description = "Endpoint para obter informações do perfil do candidato autenticado.")
+    @Operation(summary = "Consultar perfil", description = "Retorna as informações do perfil do candidato autenticado com base no ID.")
+    @ApiResponse(responseCode = "200", content = {
+            @Content(schema = @Schema(implementation = CandidateProfileDTO.class))
+    })
     public ResponseEntity<Object> getProfileCandidate(HttpServletRequest request) {
-        
+
         try{
 
             String id = request.getAttribute("candidate_id").toString();
@@ -57,7 +73,7 @@ public class CandidateController {
                 .execute(UUID.fromString(id));
 
 
-            System.out.println("===== Candidate Controller Profile try ====");    
+            System.out.println("===== Candidate Controller Profile try ====");
             return ResponseEntity.ok().body(candidateProfileDTO);
 
 
@@ -66,7 +82,7 @@ public class CandidateController {
             e.getMessage();
             return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).body("deu ruim aqui");
         }
-        
+
     }
 
     @Autowired
@@ -74,6 +90,14 @@ public class CandidateController {
 
     @GetMapping("/jobs/list")
     @PreAuthorize("hasRole('CANDIDATE')")
+
+    @Tag(name = "Vagas - Listagem", description = "Endpoint para listar vagas disponíveis de acordo com um filtro.")
+
+    @Operation(summary = "Listar vagas", description = "Lista todas as vagas disponíveis cadastradas no sistema que correspondem ao filtro informado.")
+
+    @ApiResponse(responseCode = "200", content = {
+            @Content(array = @ArraySchema(schema = @Schema(implementation = JobsEntity.class)))
+    })
     public ResponseEntity<List<JobsEntity>> listAllJobsByFilterController(@RequestParam String filter){
 
         List<JobsEntity> result = this.listAllJobsByFilterService.execute(filter);
