@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -63,6 +64,7 @@ public class CandidateController {
     @ApiResponse(responseCode = "200", content = {
             @Content(schema = @Schema(implementation = CandidateProfileDTO.class))
     })
+    @SecurityRequirement(name = "JWT_Auth")
     public ResponseEntity<Object> getProfileCandidate(HttpServletRequest request) {
 
         try{
@@ -98,6 +100,8 @@ public class CandidateController {
     @ApiResponse(responseCode = "200", content = {
             @Content(array = @ArraySchema(schema = @Schema(implementation = JobsEntity.class)))
     })
+
+    @SecurityRequirement(name = "JWT_Auth")
     public ResponseEntity<List<JobsEntity>> listAllJobsByFilterController(@RequestParam String filter){
 
         List<JobsEntity> result = this.listAllJobsByFilterService.execute(filter);
