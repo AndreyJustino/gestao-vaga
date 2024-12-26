@@ -22,12 +22,13 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/candidate")
+@Tag(name = "Usuário - Autenticação", description = "Endpoint responsável por autenticar o usuário candidato e retornar um token de acesso.")
+// é possivel por a "@tag" de forma global dentro do arquivo para afetar todos os metodos
 public class AuthCandidateController {
     @Autowired
     private AuthCandidateService authCandidateService;
 
     @PostMapping("/auth")
-    @Tag(name = "Usuário - Autenticação", description = "Endpoint responsável por autenticar o usuário candidato e retornar um token de acesso.")
     @Operation(summary = "Autenticar usuário", description = "Realiza a autenticação do usuário candidato com base nas credenciais fornecidas e retorna um token de acesso para autorização nas operações futuras.")
     @ApiResponse(responseCode = "200", content = {
             @Content(schema = @Schema(implementation = AuthCandidateResponseDTO.class))
