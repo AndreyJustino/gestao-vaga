@@ -3,22 +3,21 @@ package com.andrey.rocketseat.gestao_vagas.modules.candidate.controllers;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.CandidateEntity;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.dto.CandidateProfileDTO;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.service.CreateCandidateService;
+import com.andrey.rocketseat.gestao_vagas.modules.candidate.service.ListAllJobsByFilterService;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.service.ProfileCandidateService;
 
+import com.andrey.rocketseat.gestao_vagas.modules.company.entities.JobsEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController//indicar que isso é uma controller
 @RequestMapping("/candidate")//indicar em qual rota os metodos desse arquivo vão rodar
@@ -68,5 +67,17 @@ public class CandidateController {
             return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).body("deu ruim aqui");
         }
         
+    }
+
+    @Autowired
+    private ListAllJobsByFilterService listAllJobsByFilterService;
+
+    @GetMapping("/jobs/list")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    public ResponseEntity<List<JobsEntity>> listAllJobsByFilterController(@RequestParam String filter){
+
+        List<JobsEntity> result = this.listAllJobsByFilterService.execute(filter);
+
+        return ResponseEntity.ok().body(result);
     }
 }
