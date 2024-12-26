@@ -1,6 +1,7 @@
 package com.andrey.rocketseat.gestao_vagas.modules.company.entities;
 
 import com.andrey.rocketseat.gestao_vagas.modules.company.Levels;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,12 +27,20 @@ public class JobsEntity {
     private UUID id;
 
     @NotBlank(message = "Descrição da vaga é obrigatoria")
+    @Schema(example = "Esta vaga é para que quer ser dev java em um ambiente super legal", requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
     @NotNull(message = "O campo (levels) não pode ser nulo")
     @Enumerated(EnumType.STRING) // Salva os valores do enum como strings no banco
+    @Schema(examples = {
+            "ESTAGIARIO",
+            "JUNIOR",
+            "PLENO",
+            "SENIOR"
+    }, requiredMode = Schema.RequiredMode.REQUIRED)
     private Levels levels;
 
+    @Schema(example = "Salario, ferias remuneradas, folga uma vez na seman")
     private String benefits;
 
     @ManyToOne
