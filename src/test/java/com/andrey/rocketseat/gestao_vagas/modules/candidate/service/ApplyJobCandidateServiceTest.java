@@ -30,13 +30,13 @@ import static org.mockito.Mockito.when;
 public class ApplyJobCandidateServiceTest {
 
     @Mock //cria uma instancia de uma classe, porém Mockada
-    private JobRepository jobRepository;
+    private JobRepository jobRepository; // repositorys que estam na ApplyJobCandidateService
 
     @Mock //cria uma instancia de uma classe, porém Mockada
-    private CandidateRepository candidateRepository;
+    private CandidateRepository candidateRepository; // repositorys que estam na ApplyJobCandidateService
 
     @Mock
-    private ApplyJobRepository applyJobRepository;
+    private ApplyJobRepository applyJobRepository; // repositorys que estam na ApplyJobCandidateService
 
     @InjectMocks  //criar uma intancia e injeta as dependências necessárias que estão anotadas com @Mock.
     private ApplyJobCandidateService applyJobCandidateService;
@@ -44,7 +44,7 @@ public class ApplyJobCandidateServiceTest {
     @Test
     @DisplayName("Should return job not found")
     public void should_return_job_not_found(){
-
+        // testando o primeiro erro
         try{
             this.applyJobCandidateService.execute(null, null);
         }catch (Exception e){
@@ -56,6 +56,7 @@ public class ApplyJobCandidateServiceTest {
     @Test
     @DisplayName("Should return candidate not found")
     public void should_return_candidate_not_found(){
+        // testando o segundo erro
 
         UUID uuid = UUID.randomUUID();
 
@@ -78,6 +79,9 @@ public class ApplyJobCandidateServiceTest {
     @Test
     @DisplayName("Should candidate already registered")
     public void should_candidate_already_registered(){
+
+        // testando o terceiro erro
+
         UUID idCandidate = UUID.randomUUID();
         UUID idJob = UUID.randomUUID();
 
