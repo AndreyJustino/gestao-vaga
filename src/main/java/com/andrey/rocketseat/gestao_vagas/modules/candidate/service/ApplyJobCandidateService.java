@@ -1,6 +1,7 @@
 package com.andrey.rocketseat.gestao_vagas.modules.candidate.service;
 
 import com.andrey.rocketseat.gestao_vagas.exceptions.CandidateNotFound;
+import com.andrey.rocketseat.gestao_vagas.exceptions.CompanyOrUserFoundException;
 import com.andrey.rocketseat.gestao_vagas.exceptions.JobNotFound;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.entity.ApplyJobCandidateEntity;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.repository.ApplyJobRepository;
@@ -31,6 +32,10 @@ public class ApplyJobCandidateService {
 
         this.candidateRepository.findById(idCandidate).orElseThrow(() -> {
             throw new CandidateNotFound();
+        });
+
+        this.applyJobRepository.findByCandidateIdAndJobId(idCandidate, idJob).ifPresent((value) -> {
+            throw new CompanyOrUserFoundException("Candidato ja inscrito na vaga.");
         });
 
         ApplyJobCandidateEntity applyJobCandidateEntity = ApplyJobCandidateEntity.builder()
