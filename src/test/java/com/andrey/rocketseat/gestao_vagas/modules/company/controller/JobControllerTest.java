@@ -3,6 +3,8 @@ package com.andrey.rocketseat.gestao_vagas.modules.company.controller;
 import com.andrey.rocketseat.gestao_vagas.modules.company.Levels;
 import com.andrey.rocketseat.gestao_vagas.modules.company.dto.CreateJobDTO;
 
+import com.andrey.rocketseat.gestao_vagas.modules.company.entities.CompanyEntity;
+import com.andrey.rocketseat.gestao_vagas.modules.company.repository.CompanyRepository;
 import com.andrey.rocketseat.gestao_vagas.util.TestUtil;
 
 import org.junit.Before;
@@ -12,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,16 +24,18 @@ import org.springframework.web.context.WebApplicationContext;
 
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 
-import java.util.UUID;
-
 @RunWith(SpringRunner.class) //Configura o ambiente de teste para usar o Spring
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test") // vai pegar o que estiver no escopo de teste. Exemplo: application-test
 public class JobControllerTest {
 
     private MockMvc mvc; //simular requisições HTTP sem subir um servidor real
 
     @Autowired
     private WebApplicationContext context; // fornece o contexto da aplicação Spring para o teste
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Before //sera executado antes de cada teste
     public void setup(){
@@ -46,9 +51,21 @@ public class JobControllerTest {
 
     @Test
     public void should_be_able_to_create_a_new_job() throws Exception {
+        CompanyEntity companyEntity = CompanyEntity.builder()
+                .name("NAME_TEST")
+                .cnpj("12.123.123/1234-12")
+                .username("USERNAME_TEST")
+                .email("email@mail.com")
+                .password("12345678")
+                .website("WEBSITE_TEST.")
+                .description("DESCRIPTION_TEST")
+                .build();
+
+        companyEntity = companyRepository.saveAndFlush(companyEntity);
+
         CreateJobDTO createJobDTO = CreateJobDTO.builder()
-                .description("Vaga de teste")
-                .benefits("Beneficio de teste")
+                .description("VAGA_TESTE")
+                .benefits("BENEFICIO_TESTE")
                 .levels(Levels.JUNIOR)
                 .build();
 
@@ -57,7 +74,7 @@ public class JobControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.objectToJson(createJobDTO))
                         .header("Authorization",
-                                TestUtil.generateTokenCompany(UUID.randomUUID())
+                                TestUtil.generateTokenCompany(companyEntity.getId())
                         )
         ).andExpect(MockMvcResultMatchers.status().isOk());
 
