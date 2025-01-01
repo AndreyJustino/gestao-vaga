@@ -1,5 +1,6 @@
 package com.andrey.rocketseat.gestao_vagas.modules.company.controller;
 
+import com.andrey.rocketseat.gestao_vagas.exceptions.CompanyNotFoundException;
 import com.andrey.rocketseat.gestao_vagas.modules.company.Levels;
 import com.andrey.rocketseat.gestao_vagas.modules.company.dto.CreateJobDTO;
 
@@ -23,6 +24,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+
+import java.util.UUID;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(SpringRunner.class) //Configura o ambiente de teste para usar o Spring
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -77,7 +82,24 @@ public class JobControllerTest {
                                 TestUtil.generateTokenCompany(companyEntity.getId())
                         )
         ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
 
-        System.out.println(result);
+    @Test
+    public void should_not_be_able_to_create_a_new_job_if_company_not_found() throws Exception {
+        CreateJobDTO createJobDTO = CreateJobDTO.builder()
+                .description("VAGA_TESTE")
+                .benefits("BENEFICIO_TESTE")
+                .levels(Levels.JUNIOR)
+                .build();
+
+        mvc.perform(
+                MockMvcRequestBuilders.post("/company/jobs") //Cria uma requisição HTTP POST para o endpoint
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtil.objectToJson(createJobDTO))
+                        .header("Authorization",
+                                TestUtil.generateTokenCompany(UUID.randomUUID())
+                        )
+        ).andExpect(MockMvcResultMatchers.status().isBadRequest());
+
     }
 }
