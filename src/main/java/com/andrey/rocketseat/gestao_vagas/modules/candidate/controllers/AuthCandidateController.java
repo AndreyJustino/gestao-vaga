@@ -43,7 +43,7 @@ public class AuthCandidateController {
             return ResponseEntity.ok().body(token);
         } catch (AuthException e) {
             System.out.println("===== authCandidateController catch ====");
-            e.printStackTrace();
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
         

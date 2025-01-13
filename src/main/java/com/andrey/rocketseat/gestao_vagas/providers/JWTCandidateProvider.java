@@ -33,7 +33,6 @@ public class JWTCandidateProvider {
 
             System.out.println("===== JWTCandidateProvider catch ====");
 
-            e.printStackTrace();
             return null;
         }
     }

@@ -32,7 +32,6 @@ public class JWTCompanyProviders {
 
             System.out.println("===== JWTCompanyProviders catch ====");
 
-            e.printStackTrace();
             return null;
         }
 
