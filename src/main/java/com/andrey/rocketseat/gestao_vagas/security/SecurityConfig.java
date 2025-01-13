@@ -43,8 +43,7 @@ public class SecurityConfig {
                 .addFilterBefore(securityCompanyFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class)
                 ;
-                
-        System.out.println("===== Security Config ====");
+
         return httpSecurity.build();
     }
 

@@ -37,13 +37,8 @@ public class AuthCompanyController {
         try {
             AuthCompanyResponseDTO token = authCompany.execute(authCompanyDTO);
 
-            System.out.println("===== AuthCompanyController try ====");
-
             return ResponseEntity.ok().body(token);
         } catch (Exception e) {
-
-
-            System.out.println("===== AuthCompanyController try ====");
             
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro ao autenticar empresa");
         }

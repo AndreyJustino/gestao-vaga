@@ -49,8 +49,6 @@ public class JobController {
                 .levels(createJobDTO.getLevels())
                 .build();
 
-            //jobsEntity.setCompanyId();
-
             Object result = this.createJobService.createJobService(jobsEntity);
             return ResponseEntity.ok().body(result);
         }catch (Exception e){

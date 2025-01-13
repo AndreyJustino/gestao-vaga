@@ -17,7 +17,7 @@ public class CreateCandidateService {
 
     public CandidateEntity execute(CandidateEntity candidate){
         this.candidateRepository.findByUsernameOrEmail(candidate.getUsername(), candidate.getEmail())
-                .ifPresent((value) -> {
+                .ifPresent(value -> {
                     throw new CompanyOrUserFoundException("Usuario ja cadastrado!");
                 });
 

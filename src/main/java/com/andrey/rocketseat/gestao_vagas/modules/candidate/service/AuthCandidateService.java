@@ -61,8 +61,6 @@ public class AuthCandidateService {
             .acess_token(token)
             .expires_in(expiteIn)
             .build();
-        
-            System.out.println("===== AuthCandidateService ====");
 
         return authCandidateResponseDTO;
     }

@@ -26,23 +26,15 @@ public class SecurityCandidateFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        
-        //SecurityContextHolder.getContext().setAuthentication(null);
         String header = request.getHeader("Authorization");
 
         if (request.getRequestURI().startsWith("/candidate")) {
 
-            System.out.println("===== SecurityCandidateFilter if 1 ====");
-
             if(header != null){
-
-                System.out.println("===== SecurityCandidateFilter if 2 ====");
 
                 DecodedJWT token = this.jwtCandidateProvider.validadeToken(header);
 
-                if (token == null) { 
-                    
-                    System.out.println("===== SecurityCandidateFilter if 3 ====");
+                if (token == null) {
 
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
@@ -64,17 +56,11 @@ public class SecurityCandidateFilter extends OncePerRequestFilter{
                     new UsernamePasswordAuthenticationToken(token.getSubject(), null, grants);
     
                 SecurityContextHolder.getContext().setAuthentication(auth);
-
-                System.out.println("===== Security Candidate Filter ====");
-
-                //System.out.println(token.getClaim("roles"));
     
             }
         }
 
         filterChain.doFilter(request, response);
-
-        //throw new UnsupportedOperationException("Unimplemented method 'doFilterInternal'");
     }
     
 }

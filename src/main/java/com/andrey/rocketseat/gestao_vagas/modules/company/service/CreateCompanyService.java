@@ -17,7 +17,7 @@ public class CreateCompanyService {
 
     public CompanyEntity createCompany(CompanyEntity company){
         this.companyRepository.findByCnpjOrUsernameOrEmail(company.getCnpj(), company.getUsername(), company.getEmail())
-                .ifPresent((value) -> {
+                .ifPresent(value -> {
                     throw new CompanyOrUserFoundException("Companhia ja cadastrada!");
                 });
 

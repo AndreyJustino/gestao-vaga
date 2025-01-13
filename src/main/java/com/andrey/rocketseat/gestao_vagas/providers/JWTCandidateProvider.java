@@ -25,13 +25,9 @@ public class JWTCandidateProvider {
             DecodedJWT subject = JWT.require(algorithm).build()
             .verify(token);
 
-            System.out.println("===== JWTCandidateProvider try ====");
-
             return subject;
 
         }catch(JWTVerificationException e){
-
-            System.out.println("===== JWTCandidateProvider catch ====");
 
             return null;
         }

@@ -61,8 +61,6 @@ public class AuthCompanyService {
         .expires_in(expiresAt)
         .build();
 
-        System.out.println("===== AuthCompanyService ====");
-
         return response;
     }
 }

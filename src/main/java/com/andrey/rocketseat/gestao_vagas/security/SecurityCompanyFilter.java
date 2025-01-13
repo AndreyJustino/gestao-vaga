@@ -28,22 +28,15 @@ public class SecurityCompanyFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-                //SecurityContextHolder.getContext().setAuthentication(null);
                 String header = request.getHeader("Authorization");
 
 
                 if(request.getRequestURI().startsWith("/company")){
 
-                    System.out.println("===== SecurityFilter if 1 ====");
-
                     if(header != null){
-
-                        System.out.println("===== SecurityFilter if 2 ====");
 
                         DecodedJWT token = this.jwtProviders.validadeToken(header);
                         if (token == null) {
-
-                            System.out.println("===== SecurityFilter if 3 ====");
 
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             return;
@@ -62,14 +55,10 @@ public class SecurityCompanyFilter extends OncePerRequestFilter{
                             new UsernamePasswordAuthenticationToken(token.getSubject(), null, grants);
     
                         SecurityContextHolder.getContext().setAuthentication(auth);
-
-                        System.out.println("===== Security Filter ====");
                     }
                 }
 
                 filterChain.doFilter(request, response);
-
-        //throw new UnsupportedOperationException("Unimplemented method 'doFilterInternal'");
     }
     
 }

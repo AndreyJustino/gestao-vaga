@@ -15,25 +15,12 @@ public class ProfileCandidateService {
     @Autowired
     private CandidateRepository candidateRepository;
 
-    /*
-        @Autowired
-        private CandidateProfileDTO candidateProfileDTO;
-     */
-
     public CandidateProfileDTO execute(UUID idCandidate){
         CandidateEntity candidateEntity = candidateRepository.findById(idCandidate).orElseThrow(
             () -> {
                 throw new UsernameNotFoundException("Usuario não encontrado");
             }
         );
-
-        /*
-            candidateProfileDTO.setName(candidateEntity.getName());
-            candidateProfileDTO.setUsername(candidateEntity.getUsername());
-            candidateProfileDTO.setEmail(candidateEntity.getEmail());
-            candidateProfileDTO.setDescription(candidateEntity.getDescription());
-            candidateProfileDTO.setCurriculum(candidateEntity.getCurriculum());
-        */
 
         CandidateProfileDTO candidateProfileDTO = CandidateProfileDTO.builder()
             .email(candidateEntity.getEmail())
@@ -42,8 +29,6 @@ public class ProfileCandidateService {
             .name(candidateEntity.getName())
             .description(candidateEntity.getDescription())
         .build();
-
-            System.out.println("===== Candidate Service Profile ====");
 
         return candidateProfileDTO;
     }

@@ -34,7 +34,7 @@ public class ApplyJobCandidateService {
             throw new CandidateNotFound();
         });
 
-        this.applyJobRepository.findByCandidateIdAndJobId(idCandidate, idJob).ifPresent((value) -> {
+        this.applyJobRepository.findByCandidateIdAndJobId(idCandidate, idJob).ifPresent(value -> {
             throw new CompanyOrUserFoundException("Candidato ja inscrito na vaga.");
         });
 

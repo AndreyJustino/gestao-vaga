@@ -38,11 +38,8 @@ public class AuthCandidateController {
         try {
             AuthCandidateResponseDTO token = this.authCandidateService.execute(authCandidateDTO);
 
-            System.out.println("===== authCandidateController try ====");
-
             return ResponseEntity.ok().body(token);
         } catch (AuthException e) {
-            System.out.println("===== authCandidateController catch ====");
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }

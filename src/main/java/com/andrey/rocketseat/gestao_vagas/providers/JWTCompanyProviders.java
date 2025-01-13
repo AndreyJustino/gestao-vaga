@@ -24,13 +24,9 @@ public class JWTCompanyProviders {
             DecodedJWT tokenDecoded = JWT.require(algorithm)
             .build()
             .verify(token);
-        
-            System.out.println("===== JWTCompanyProviders try ====");
 
             return tokenDecoded;
         } catch (JWTVerificationException e) {
-
-            System.out.println("===== JWTCompanyProviders catch ====");
 
             return null;
         }

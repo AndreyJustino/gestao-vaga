@@ -3,7 +3,6 @@ package com.andrey.rocketseat.gestao_vagas.modules.candidate.entity;
 import com.andrey.rocketseat.gestao_vagas.modules.candidate.CandidateEntity;
 import com.andrey.rocketseat.gestao_vagas.modules.company.entities.JobsEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

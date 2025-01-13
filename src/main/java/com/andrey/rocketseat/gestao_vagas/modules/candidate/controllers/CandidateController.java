@@ -44,11 +44,8 @@ public class CandidateController {
         try{
             Object result = this.createCandidateService.execute(candidate);
 
-            System.out.println("===== CandidateController try ====");
-
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
-            System.out.println("===== CandidateController catch ====");
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
@@ -74,15 +71,11 @@ public class CandidateController {
             CandidateProfileDTO candidateProfileDTO = this.profileCandidateService
                 .execute(UUID.fromString(id));
 
-
-            System.out.println("===== Candidate Controller Profile try ====");
             return ResponseEntity.ok().body(candidateProfileDTO);
 
 
         }catch(Exception e){
-            System.out.println("===== Candidate Controller Profile catch ====");
-            e.getMessage();
-            return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).body("deu ruim aqui");
+            return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).body(e.getMessage());
         }
 
     }
