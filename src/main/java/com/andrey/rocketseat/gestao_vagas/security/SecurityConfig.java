@@ -20,10 +20,11 @@ public class SecurityConfig {
     @Autowired
     private SecurityCandidateFilter securityCandidateFilter;
 
-    private static final String[] SWAGGER_LIST = {
+    private static final String[] PERMIT_ALL_LIST = {
             "/swagger-ui/**",
             "/v3/api-docs/**",
-            "/swagger-resources/**"
+            "/swagger-resources/**",
+            "/actuator/**"
     };
 
     /*esse metodo por padrão ja é gerenciado pelo spring
@@ -37,7 +38,7 @@ public class SecurityConfig {
                             .requestMatchers("/company/").permitAll()
                             .requestMatchers("/company/auth").permitAll()
                             .requestMatchers("/candidate/auth").permitAll()
-                            .requestMatchers(SWAGGER_LIST).permitAll()
+                            .requestMatchers(PERMIT_ALL_LIST).permitAll()
                             .anyRequest().authenticated();//aqui digo que as demais precisam de autenticacao
                 }))
                 .addFilterBefore(securityCompanyFilter, BasicAuthenticationFilter.class)
